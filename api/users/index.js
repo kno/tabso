@@ -31,11 +31,15 @@ const UsersRoutes = Router()
     }
   })
   .post('/register', async (req, res) => {
+    if (!['deliverer', 'recipient'].contatins(req.body.type)) {
+      return res.status(500).json();
+    }
     try {
       const user = await UsersModels.create({
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, 10),
-        phone: req.body.phone
+        phone: req.body.phone,
+        type: req.body.type
       });
       const payload = {
         id: user.id,
