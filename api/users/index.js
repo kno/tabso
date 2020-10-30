@@ -34,7 +34,8 @@ const UsersRoutes = Router()
     try {
       const user = await UsersModels.create({
         username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 10)
+        password: bcrypt.hashSync(req.body.password, 10),
+        phone: req.body.phone
       });
       const payload = {
         id: user.id,
