@@ -1,19 +1,53 @@
 import Router from 'express';
+import Models from '../models';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
-const Users = Router();
-Users.use('/login/', (req, res) => {
-  if (req.body.user == 'asdf' && req.body.password === '123'){
-    const payload = {
-      id: 1
-    };
-    const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
-    res.json({
-      msg: 'authenticated',
-      token: token
-    })
-  } else {
-    res.status(401).json({msg: 'user/password incorrect'});
-  }
-});
+const UsersModels = Models.user;
 
-export default Users;
+const UsersRoutes = Router()
+  .post('/login', async (req, res) => {
+    console.log('login')
+    try {
+      const user = await UsersModels.findOne({
+        where: {
+          username: req.body.username
+        }
+      });
+      if (!user || !bcrypt.compareSync(req.body.password, user.password, 10)) {
+        return res.status(401).json();
+      }
+      const payload = {
+        id: user.id,
+        username: user.username
+      };
+      const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
+      res.json({
+        token: token
+      });
+    } catch (err) {
+      console.log(err)
+      res.status(403).send();
+    }
+  })
+  .post('/register', async (req, res) => {
+    try {
+      const user = await UsersModels.create({
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 10)
+      });
+      const payload = {
+        id: user.id,
+        username: user.username
+      };
+      const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
+      res.json({
+        token: token
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send();
+    }
+  })
+;
+export default UsersRoutes;
