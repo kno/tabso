@@ -7,7 +7,7 @@
   "scripts": {
     "build": "babel --config-file ./babel.config.json server.js -d build",
     "start": "node build/server.js",
-    "dev": "nodemon --exec babel-node --experimental-json-modules server.js",
+    "dev": "nodemon --exec babel-node server.js",
     "db": "docker run -d --rm --name mariadb -v ${PWD}/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mariadb"
   },
   "nodemonConfig": {
@@ -27,6 +27,7 @@
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
+    "@babel/plugin-proposal-export-default-from": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "babel-plugin-add-import-extension": "^1.4.3",
     "eslint": "^7.12.1",

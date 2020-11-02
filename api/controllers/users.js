@@ -3,13 +3,13 @@ import Models from '../models';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-const UsersModels = Models.user;
+const UsersModel = Models.user;
 
 const UsersRoutes = Router()
   .post('/login', async (req, res) => {
     console.log('login')
     try {
-      const user = await UsersModels.findOne({
+      const user = await UsersModel.findOne({
         where: {
           username: req.body.username
         }
@@ -19,7 +19,8 @@ const UsersRoutes = Router()
       }
       const payload = {
         id: user.id,
-        username: user.username
+        username: user.username,
+        userType: user.type
       };
       const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
       res.json({
@@ -31,11 +32,11 @@ const UsersRoutes = Router()
     }
   })
   .post('/register', async (req, res) => {
-    if (!['deliverer', 'recipient'].contatins(req.body.type)) {
+    if (!['deliverer', 'recipient'].includes(req.body.type)) {
       return res.status(500).json();
     }
     try {
-      const user = await UsersModels.create({
+      const user = await UsersModel.create({
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, 10),
         phone: req.body.phone,

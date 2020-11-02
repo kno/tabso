@@ -1,4 +1,7 @@
 {
   "presets": ["@babel/preset-env"],
-  "plugins": ["babel-plugin-add-import-extension"]
+  "plugins": [
+    "babel-plugin-add-import-extension",
+    "@babel/plugin-proposal-export-default-from"
+  ]
 }

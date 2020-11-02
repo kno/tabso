@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const RutasProtegidas = ((req, res, next) => {
+const ProtectedRoutes = ((req, res, next) => {
   const token = req.header('Authorization');
 
   if (token) {
@@ -8,7 +8,7 @@ const RutasProtegidas = ((req, res, next) => {
       if (err) {
         return res.status(401).json({msg: 'Invalid Token'});
       }
-      req.decoded = decoded;
+      req.decodedUser = decoded;
       next();
     })
   } else {
@@ -16,4 +16,4 @@ const RutasProtegidas = ((req, res, next) => {
   }
 });
 
-export default RutasProtegidas;
+export default ProtectedRoutes;

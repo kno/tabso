@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import config from './configs/config.js';
-import RutasProtegidas from './middleware.js'
-import Users from './users/index.js';
+import config from './configs/config';
+import ProtectedRoutes from './middleware'
+import {Users, Deliveries} from './controllers/index';
 
 const app = express();
 app.set('key', config.key);
@@ -20,7 +20,8 @@ app.get('/', (_, res) => {
 });
 
 app.use('/users', Users);
+app.use('/deliveries', Deliveries)
 
-app.get('/protected', RutasProtegidas, (_, res) => {
+app.get('/protected', ProtectedRoutes, (_, res) => {
   res.send('Protected route');
 });
