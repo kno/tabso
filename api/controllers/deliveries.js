@@ -61,6 +61,24 @@ const DeliveriesRoutes = Router()
     }
     return res.status(500).json();
   })
+  .get('/', ProtectedRoutes, async (req, res) => {
+    try {
+      const user = await UsersModel.findByPk(req.decodedUser.id);
+      console.log(user.deliveries)
+      const condition = req.decodedUser.userType === 'deliverer' ? {delivererId: req.decodedUser.id} : {recipientId: req.decodedUser.id};
+      const deliveries = await DeliveriesModel.findAll({
+        where: {
+          ...condition
+        }
+      })
+
+      return res.json(deliveries);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json();
+    }
+    return res.status(500).json();
+  })
 ;
 
 export default DeliveriesRoutes;
