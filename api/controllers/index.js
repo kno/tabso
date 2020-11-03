@@ -1,2 +1,4 @@
-export Deliveries from './deliveries';
-export Users from './users';
+import Deliveries from './deliveries'
+import Users from './users';
+
+export {Deliveries, Users};

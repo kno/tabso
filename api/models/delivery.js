@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
   };
   delivery.init({
     date: DataTypes.DATE,
-    userId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    delivererId: DataTypes.INTEGER,
+    recipientId: DataTypes.INTEGER,
+    status: DataTypes. INTEGER
   }, {
     sequelize,
     modelName: 'delivery',
