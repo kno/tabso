@@ -18,7 +18,7 @@
                 id="userName"
                 v-model="registerDetails['registerUserName']"
                 name="userName"
-                label="Full Name"
+                label="Username"
                 autocomplete="name"
                 :rules="[rules.required]"
               ></v-text-field>
@@ -39,10 +39,10 @@
             <v-col md="12"></v-col>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="registerDetails['registerUserId']"
+                v-model="registerDetails['phone']"
                 autocomplete="userid"
-                label="Enter your email / user id"
-                :rules="[rules.required, rules.userlen, rules.email]"
+                label="Phone number"
+                :rules="[rules.required]"
                 :loading="validUserIdStatus == null"
                 @input="checkExistingUserId"
               >
@@ -74,6 +74,17 @@
               ></v-text-field>
             </v-col>
             <v-col md="12"></v-col>
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="type"
+                :items="types"
+                label="User Type"
+                item-text="label"
+                item-value="type"
+              >
+              </v-select>
+            </v-col>
+            <v-col md="12"></v-col>
 
             <v-col cols="12"></v-col>
             <v-col cols="12" md="6" class="pt-3 text-right">
@@ -102,7 +113,11 @@ export default {
   data() {
     return {
       value: String,
-      validInput: true
+      validInput: true,
+      types: [
+        { type: "deliverer", label: "Deliverer" },
+        { type: "recipient", label: "Recipient" }
+      ]
     };
   },
 
