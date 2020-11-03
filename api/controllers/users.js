@@ -7,7 +7,6 @@ const UsersModel = Models.user;
 
 const UsersRoutes = Router()
   .post('/login', async (req, res) => {
-    console.log('login')
     try {
       const user = await UsersModel.findOne({
         where: {
