@@ -42,15 +42,14 @@ const DeliveriesRoutes = Router()
       console.log(error);
       return res.status(500).json();
     }
-    res.status(500).json();
   })
   .post('/accept', ProtectedRoutes, async (req, res) => {
     try {
-    const delivery = await DeliveriesModel.findOne({
-      where: {
-        id: req.body.deliveryId,
-        recipientId: req.decodedUser.id,
-        status: DELIVERY_STATUS.PROPOSED
+      const delivery = await DeliveriesModel.findOne({
+        where: {
+          id: req.body.deliveryId,
+          recipientId: req.decodedUser.id,
+          status: DELIVERY_STATUS.PROPOSED
       }});
       delivery.status = DELIVERY_STATUS.ACCEPTED;
       await delivery.save();
@@ -59,7 +58,6 @@ const DeliveriesRoutes = Router()
       console.log(error);
       return res.status(500).json();
     }
-    return res.status(500).json();
   })
   .get('/', ProtectedRoutes, async (req, res) => {
     try {
@@ -71,7 +69,6 @@ const DeliveriesRoutes = Router()
       console.log(error);
       return res.status(500).json();
     }
-    return res.status(500).json();
   })
 ;
 
