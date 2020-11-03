@@ -8,7 +8,7 @@ const DELIVERY_STATUS = {
   PROPOSED: 0,
   ACCEPTED: 1,
   NOT_ACCEPTED: 2,
-  REPLANNED: 3,
+  RESCHEDULED: 3,
 }
 
 const DeliveriesRoutes = Router()
@@ -54,6 +54,24 @@ const DeliveriesRoutes = Router()
       delivery.status = DELIVERY_STATUS.ACCEPTED;
       await delivery.save();
       res.json(delivery);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json();
+    }
+  })
+  .post('/reschedule', async (req, res) => {
+    try {
+      const delivery = await DeliveriesModel.findOne({
+        where: {
+          id: req.body.deliveryId,
+          recipientId: req.decodedUser.id,
+          status: DELIVERY_STATUS.PROPOSED
+      }});
+      delivery.status = DELIVERY_STATUS.RESCHEDULED;
+      delivery.date = req.body.newDate;
+      await delivery.save();
+      res.json(delivery);
+
     } catch (error) {
       console.log(error);
       return res.status(500).json();

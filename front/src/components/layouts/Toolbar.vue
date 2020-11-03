@@ -67,7 +67,7 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="leftDrawOpen" clipped hide-overlay app>
-      <!-- Items are passed from here since we may want to reuse these at 
+      <!-- Items are passed from here since we may want to reuse these at
           toolbar level at some point in time -->
       <NavDrawer
         :userItems="userItems"
@@ -141,7 +141,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("authentication", ["isLoggedIn", "registerEmail"]),
+    ...mapGetters("authentication", ["isLoggedIn", "registerEmail", "user"]),
     ...sync("pref", ["leftDrawOpen", "rightDrawOpen", "rightDrawEnabled"])
   },
   methods: {

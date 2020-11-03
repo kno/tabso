@@ -5,7 +5,7 @@
         <v-avatar class="mr-3" v-if="isLoggedIn">
           <v-icon>mdi-account-circle</v-icon>
         </v-avatar>
-        <span>{{ formattedUserId }}</span>
+        <span>{{ user.username }}</span>
       </span>
     </v-toolbar>
 
@@ -91,14 +91,7 @@ export default {
   computed: {
     ...mapGetters("authentication", ["isLoggedIn", "isOrgAdmin"]),
     ...mapState("authentication", ["user"]),
-    ...mapState(["loading"]),
-    formattedUserId() {
-      let userId = this.user && this.user.userid;
-      if (userId && userId.length > 12)
-        userId = `${this.user.userid.substr(0, 10)}..`;
-
-      return userId;
-    }
+    ...mapState(["loading"])
   },
   props: {
     anonItems: Array,

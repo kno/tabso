@@ -44,8 +44,8 @@ export default {
 
     async login({ state }) {
       try {
-        const { data } = await req("post", "v0/auth/login", {
-          userid: state.registerUserId,
+        const { data } = await req("post", "users/login", {
+          username: state.registerUserId,
           password: state.registerPass
         });
 

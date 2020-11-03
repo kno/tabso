@@ -5,11 +5,12 @@ export default async (reqType, reqURL, data) => {
   store.set("loading", true);
   store.commit("alert/setAlertMsg", "");
 
-  const options = {
+  const authenticationHeader = {
     headers: {
       Authorization: `Bearer ${store.state.authentication.token}`
     }
   };
+  const options = store.state.authentication.token ? authenticationHeader : {};
 
   try {
     switch (reqType) {

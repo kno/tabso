@@ -98,7 +98,7 @@ export default {
 
     validateAndLogin() {
       if (this.$refs.form.validate()) {
-        // this.login();
+        this.login();
       }
     },
 

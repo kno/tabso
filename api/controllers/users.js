@@ -23,7 +23,8 @@ const UsersRoutes = Router()
       };
       const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
       res.json({
-        token: token
+        token: token,
+        user: user
       });
     } catch (err) {
       console.log(err)
