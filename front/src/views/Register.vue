@@ -23,19 +23,6 @@
                 :rules="[rules.required]"
               ></v-text-field>
             </v-col>
-            <!-- <v-col md="12"></v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="registerDetails['registerEmail']"
-                name="email"
-                autocomplete="email"
-                label="Email"
-                append-icon="mdi-email"
-                hint="Used for all communications incl. registration confirmation."
-                :rules="[rules.required, rules.email]"
-                @change="defaultUserId"
-              ></v-text-field>
-            </v-col> -->
             <v-col md="12"></v-col>
             <v-col cols="12" md="6">
               <v-text-field
@@ -76,11 +63,12 @@
             <v-col md="12"></v-col>
             <v-col cols="12" md="6">
               <v-select
-                v-model="type"
+                v-model="registerDetails['type']"
                 :items="types"
                 label="User Type"
                 item-text="label"
                 item-value="type"
+                :rules="[rules.required]"
               >
               </v-select>
             </v-col>

@@ -63,10 +63,7 @@ export default {
 
     async register({ state }) {
       try {
-        // Note that we are storing registerUserId in email as well.
-        // You could use this field to separate out email and userid
-        // email: state.registerDetails["registerEmail"],
-        const { data } = await req("post", "user/register", {
+        const { data } = await req("post", "users/register", {
           username: state.registerDetails["registerUserName"],
           password: state.registerPass,
           phone: state.registerDetails["phone"],
