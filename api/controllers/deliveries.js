@@ -64,13 +64,7 @@ const DeliveriesRoutes = Router()
   .get('/', ProtectedRoutes, async (req, res) => {
     try {
       const user = await UsersModel.findByPk(req.decodedUser.id);
-      console.log(user.deliveries)
-      const condition = req.decodedUser.userType === 'deliverer' ? {delivererId: req.decodedUser.id} : {recipientId: req.decodedUser.id};
-      const deliveries = await DeliveriesModel.findAll({
-        where: {
-          ...condition
-        }
-      })
+      const deliveries = await (req.decodedUser.userType === 'deliverer' ? user.getPendingDeliveries() : user.getPendingRecipients());
 
       return res.json(deliveries);
     } catch (error) {
