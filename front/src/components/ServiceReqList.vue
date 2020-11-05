@@ -29,18 +29,17 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :items="serviceReqs.data"
+              :items="serviceReqs"
               :options.sync="options"
               :server-items-length="Number(serviceReqs.total)"
               hide-default-footer
             >
               <template v-slot:item="props">
                 <tr @click="activeServiceReq = props.item">
-                  <td>{{ props.item.sr_number }}</td>
-                  <td>{{ props.item.type_cd }}</td>
-                  <td>{{ props.item.description }}</td>
-                  <td>{{ props.item.status_cd }}</td>
-                  <td>{{ props.item.planned_start_date }}</td>
+                  <td>{{ props.item.id }}</td>
+                  <td>{{ props.item.deliverer.username }}</td>
+                  <td>{{ props.item.recipient.username }}</td>
+                  <td>{{ props.item.date }}</td>
                   <td>
                     <v-icon color="success" @click="editRecord(props.item)"
                       >mdi-pencil</v-icon
@@ -78,11 +77,10 @@ export default {
       options: {},
       detailDialog: false,
       headers: [
-        { text: "SR Num.", value: "sr_number" },
-        { text: "Type", value: "type_cd" },
-        { text: "Description", value: "description" },
-        { text: "Status", value: "status_cd", sortable: false },
-        { text: "Planned Start", value: "planned_start_date", sortable: false },
+        { text: "SR Num.", value: "#" },
+        { text: "Type", value: "Deliverer" },
+        { text: "Description", value: "Recipient" },
+        { text: "Date", value: "status_cd", sortable: false },
         { text: "Actions", value: "actions", sortable: false }
       ],
       srchSrNum: "",

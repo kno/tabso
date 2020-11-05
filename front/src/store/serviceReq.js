@@ -18,14 +18,14 @@ export default {
   state: state,
 
   actions: {
-    async fetchServiceReq(args, params) {
-      let { page, query } = params;
-      let url = `v0/sr-my`;
-      page = page ? page : 1;
-      url += `?page=${page}`;
+    async fetchServiceReq() {
+      //let { page, query } = params;
+      let url = `deliveries`;
+      //page = page ? page : 1;
+      //url += `?page=${page}`;
 
-      if (query && !!Object.entries(query).length)
-        url += "&query=" + JSON.stringify(query);
+      //if (query && !!Object.entries(query).length)
+      //  url += "&query=" + JSON.stringify(query);
 
       const { data } = await req("get", url);
       if (data) store.set("serviceReq/serviceReqs", data);

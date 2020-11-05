@@ -7,7 +7,7 @@ export default async (reqType, reqURL, data) => {
 
   const authenticationHeader = {
     headers: {
-      Authorization: `Bearer ${store.state.authentication.token}`
+      Authorization: `${store.state.authentication.token}`
     }
   };
   const options = store.state.authentication.token ? authenticationHeader : {};

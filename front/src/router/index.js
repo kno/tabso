@@ -53,6 +53,12 @@ const routes = [
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue")
   },
   {
+    path: "/sr",
+    name: "ServiceRequest",
+    component: () =>
+      import(/* webpackChunkName: "servicerequest" */ "../views/Sr.vue")
+  },
+  {
     // catch all 404
     path: "*",
     component: () => import("../views/NotFound.vue")

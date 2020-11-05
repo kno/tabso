@@ -80,7 +80,17 @@ const DeliveriesRoutes = Router()
   .get('/', ProtectedRoutes, async (req, res) => {
     try {
       const user = await UsersModel.findByPk(req.decodedUser.id);
-      const deliveries = await (req.decodedUser.userType === 'deliverer' ? user.getPendingDeliveries() : user.getPendingRecipients());
+      const deliveries = await (req.decodedUser.userType === 'deliverer' ?
+        user.getPendingDeliveries({include: [{
+          model: UsersModel,
+          as: 'deliverer'
+        }, {
+          model: UsersModel,
+          as: 'recipient'
+        }
+      ]})
+      :
+        user.getPendingRecipients());
 
       return res.json(deliveries);
     } catch (error) {
