@@ -21,6 +21,7 @@ const UsersRoutes = Router()
         username: user.username,
         userType: user.type
       };
+      delete user.dataValues.password;
       const token = jwt.sign(payload, req.app.get('key'), {expiresIn: 1440});
       res.json({
         token: token,

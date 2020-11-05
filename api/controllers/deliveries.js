@@ -83,10 +83,12 @@ const DeliveriesRoutes = Router()
       const deliveries = await (req.decodedUser.userType === 'deliverer' ?
         user.getPendingDeliveries({include: [{
           model: UsersModel,
-          as: 'deliverer'
+          as: 'deliverer',
+          attributes: ['id', 'username']
         }, {
           model: UsersModel,
-          as: 'recipient'
+          as: 'recipient',
+          attributes: ['id', 'username']
         }
       ]})
       :
