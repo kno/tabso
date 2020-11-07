@@ -44,6 +44,12 @@
                     <v-icon color="success" @click="editRecord(props.item)"
                       >mdi-pencil</v-icon
                     >
+                    <v-icon
+                      :color="props.item.status === 1 ? 'success' : ''"
+                      @click="accept(props.item.id)"
+                    >
+                      mdi-check
+                    </v-icon>
                   </td>
                 </tr>
               </template>
@@ -126,7 +132,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("serviceReq", ["fetchServiceReq"]),
+    ...mapActions("serviceReq", ["fetchServiceReq", "acceptServiceReq"]),
 
     changePage(page) {
       this.fetchServiceReq({
@@ -140,8 +146,13 @@ export default {
       this.detailDialog = true;
     },
 
+    accept(id) {
+      this.acceptServiceReq(id);
+      this.fetchServiceReq();
+    },
+
     newRecord() {
-      this.activeServiceReq = { type_cd: "Request", status_cd: "Created" };
+      this.activeServiceReq = { status: 0 };
       this.detailDialog = true;
     }
   },

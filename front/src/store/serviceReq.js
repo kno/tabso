@@ -33,11 +33,22 @@ export default {
     },
 
     async createServiceReq({ commit }, sr) {
-      console.log("sr", sr.date);
       const { data } = await req("post", "deliveries/", sr);
       store.set("serviceReq/activeServiceReq", data);
       commit("appendServiceReq", data);
       return data;
+    },
+
+    async acceptServiceReq(_, deliveryId) {
+      try {
+        const { data } = await req("post", "deliveries/accept", {
+          deliveryId: deliveryId
+        });
+        return data;
+      } catch (e) {
+        // error
+        console.error(e);
+      }
     },
 
     async updateServiceReq({ state }) {
