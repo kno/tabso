@@ -4,6 +4,7 @@ import { make } from "vuex-pathify";
 import store from ".";
 
 const getDefaultState = () => {
+  console.log("mierda mundo");
   return {
     serviceReqs: [],
     activeServiceReq: {}
@@ -33,7 +34,8 @@ export default {
     },
 
     async createServiceReq({ commit }, sr) {
-      const { data } = await req("post", "v0/sr/", sr);
+      console.log("sr", sr.date);
+      const { data } = await req("post", "deliveries/", sr);
       store.set("serviceReq/activeServiceReq", data);
       commit("appendServiceReq", data);
       return data;

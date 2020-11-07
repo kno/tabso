@@ -13,18 +13,19 @@ const DELIVERY_STATUS = {
 
 const DeliveriesRoutes = Router()
   .post('/', ProtectedRoutes, async (req, res) => {
+    console.log("body", req.body);
     if (req.decodedUser.userType !== 'deliverer') {
       return res.status(403).json();
     }
     try {
       const recipient = await UsersModel.findOne({
         where: {
-          phone: req.body.recipientPhone,
+          phone: req.body.phone,
           type: 'recipient'
         }
       });
       if (!recipient) {
-        return req.status(404).json();
+        return res.status(404).json();
       }
       const delivery = await DeliveriesModel.create({
         delivererId: req.decodedUser.id,

@@ -4,15 +4,15 @@
 
     <Snackbar />
 
-    <v-content>
+    <v-main>
       <!-- <v-container fluid> -->
-      <!-- 
-        The key refreshes component in some wierd cases. 
-        You may or may not want this 
+      <!--
+        The key refreshes component in some wierd cases.
+        You may or may not want this
       -->
       <router-view :key="$route.fullPath" />
       <!-- </v-container> -->
-    </v-content>
+    </v-main>
 
     <Footer></Footer>
   </v-app>

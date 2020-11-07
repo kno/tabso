@@ -78,8 +78,8 @@ export default {
       detailDialog: false,
       headers: [
         { text: "SR Num.", value: "#" },
-        { text: "Type", value: "Deliverer" },
-        { text: "Description", value: "Recipient" },
+        { text: "Deliverer", value: "Deliverer" },
+        { text: "Recipient", value: "Recipient" },
         { text: "Date", value: "status_cd", sortable: false },
         { text: "Actions", value: "actions", sortable: false }
       ],
