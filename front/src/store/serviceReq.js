@@ -4,7 +4,6 @@ import { make } from "vuex-pathify";
 import store from ".";
 
 const getDefaultState = () => {
-  console.log("mierda mundo");
   return {
     serviceReqs: [],
     activeServiceReq: {}

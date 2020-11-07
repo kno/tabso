@@ -13,7 +13,6 @@ const DELIVERY_STATUS = {
 
 const DeliveriesRoutes = Router()
   .post('/', ProtectedRoutes, async (req, res) => {
-    console.log("body", req.body);
     if (req.decodedUser.userType !== 'deliverer') {
       return res.status(403).json();
     }
@@ -93,7 +92,16 @@ const DeliveriesRoutes = Router()
         }
       ]})
       :
-        user.getPendingRecipients());
+        user.getPendingRecipients({include: [{
+          model: UsersModel,
+          as: 'deliverer',
+          attributes: ['id', 'username']
+        }, {
+          model: UsersModel,
+          as: 'recipient',
+          attributes: ['id', 'username']
+        }
+      ]}));
 
       return res.json(deliveries);
     } catch (error) {
