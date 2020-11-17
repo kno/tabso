@@ -19,10 +19,22 @@
 </template>
 
 <script>
+/* eslint-disable */
 import Toolbar from "@/components/layouts/Toolbar";
 import Footer from "@/components/layouts/Footer";
 
 export default {
+  async mounted() {
+    console.log("app created");
+
+    if (this.$workbox) {
+      console.log("workbox available in app", this.$workbox);
+      this.$workbox.addEventListener("push", () => {
+        alert("ohla zimundo");
+        this.showUpdateUI = true;
+      });
+    }
+  },
   name: "App",
 
   components: {

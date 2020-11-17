@@ -1,3 +1,4 @@
+/* eslint-disable */
 import req from "../util/req";
 
 import { make } from "vuex-pathify";

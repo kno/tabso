@@ -3,9 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import wb from "./registerServiceWorker";
 
 import VTooltip from "v-tooltip";
 
+Vue.prototype.$workbox = wb;
 Vue.config.productionTip = false;
 
 Vue.use(VTooltip);

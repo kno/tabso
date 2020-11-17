@@ -55,13 +55,11 @@
 
 <script>
 import ClaimEditContainer from "./ClaimEditContainer";
-import PanelFormMain from "./layouts/PanelFormMain";
 
 export default {
   name: "tabPanel",
   components: {
     ClaimEditContainer,
-    PanelFormMain,
 
     ClaimEditRemarks: () => import("./ClaimEditRemarks"),
     AttachmentEdit: () => import("./AttachmentEdit"),

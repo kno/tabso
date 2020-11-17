@@ -2,7 +2,6 @@
   <Panel icon="mdi-view-dashboard" title="Dashboard">
     <template slot="content">
       <v-container>
-        This is a SR.
         <ServiceReqList />
       </v-container>
     </template>
