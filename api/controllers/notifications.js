@@ -1,7 +1,9 @@
 import Router from 'express';
 import webPush from 'web-push';
 import  urlBase64 from 'urlsafe-base64';
+import ProtectedRoutes from '../middleware';
 import Models from '../models';
+
 const UsersModel = Models.user;
 
 const VAPID_KEY = {
@@ -12,20 +14,18 @@ const VAPID_KEY = {
 webPush.setVapidDetails('http://localhost', VAPID_KEY.publicKey, VAPID_KEY.privateKey);
 
 const UsersRoutes = Router()
-  .get('/vapidPublicKey', (req, res) => {
+  .get('/vapidPublicKey', ProtectedRoutes, (req, res) => {
     res.json({
       publicKey: VAPID_KEY.publicKey
     })
   })
-  .post('/register', async (req, res) => {
-    console.log(req.body);
+  .post('/register', ProtectedRoutes, async (req, res) => {
     const user = await UsersModel.findByPk(req.decodedUser.id);
     if (!user) {
       res.sendStatus(403);
     }
     user.subscription = JSON.stringify(req.body);
     await user.save();
-    console.log(user);
     res.json(user);
   })
 
