@@ -1,6 +1,7 @@
 import Router from 'express';
 import Models from '../models';
 import ProtectedRoutes from '../middleware';
+import {sendNotification} from './notifications';
 
 const DeliveriesModel = Models.delivery;
 const UsersModel = Models.user;
@@ -37,6 +38,7 @@ const DeliveriesRoutes = Router()
           {model: UsersModel, as: 'recipient'}
         ]
       });
+      await sendNotification(recipient.id, "A deliverer wants to deliver an order to you");
       res.json(delivery);
     } catch (error) {
       console.log(error);
@@ -53,6 +55,7 @@ const DeliveriesRoutes = Router()
       }});
       delivery.status = DELIVERY_STATUS.ACCEPTED;
       await delivery.save();
+      await sendNotification(req.decodedUser.id, "A recipient has accepted a delivery");
       res.json(delivery);
     } catch (error) {
       console.log(error);
@@ -102,6 +105,7 @@ const DeliveriesRoutes = Router()
           attributes: ['id', 'username']
         }
       ]}));
+      await sendNotification(req.decodedUser.id, "A delivery has been rescheduled");
 
       return res.json(deliveries);
     } catch (error) {

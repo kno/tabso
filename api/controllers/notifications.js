@@ -70,4 +70,23 @@ const UsersRoutes = Router()
   })
 ;
 
+const sendNotification = async (userId, text) => {
+  const user = await UsersModel.findByPk(userId);
+  const notificationResult = await webPush.sendNotification(
+    JSON.parse(user.subscription),
+    text,
+    {
+      vapidDetails: {
+        subject: 'https://www.tabso.com',
+        publicKey: urlBase64.encode(VAPID_KEY.publicKey),
+        privateKey: urlBase64.encode(VAPID_KEY.privateKey)
+      },
+      contentEncoding: 'aesgcm',
+      TTL: 5
+    }
+  );
+};
+
+export {sendNotification};
+
 export default UsersRoutes;
