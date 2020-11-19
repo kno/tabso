@@ -105,7 +105,6 @@ const DeliveriesRoutes = Router()
           attributes: ['id', 'username']
         }
       ]}));
-      await sendNotification(req.decodedUser.id, "A delivery has been rescheduled");
 
       return res.json(deliveries);
     } catch (error) {
