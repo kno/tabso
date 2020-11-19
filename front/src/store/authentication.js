@@ -4,6 +4,7 @@ import store from "../store";
 
 import { make } from "vuex-pathify";
 import router from "../router";
+import {Register} from "../registerServiceWorker";
 
 const getDefaultState = () => {
   return {
@@ -55,6 +56,7 @@ export default {
           store.set("authentication/refreshToken", data["refreshToken"]);
           store.set("pref/leftDrawOpen", true);
           store.set("authentication/user", data["user"]);
+          Register();
           router.push("/dashboard");
         }
       } catch (e) {

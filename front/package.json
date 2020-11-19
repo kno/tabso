@@ -14,7 +14,6 @@
     "eslint-config-prettier": "^6.10.1",
     "file-saver": "^2.0.2",
     "js-cookie": "^2.2.0",
-    "register-service-worker": "^1.7.1",
     "v-tooltip": "^2.0.3",
     "vue": "^2.6.11",
     "vue-html-to-paper": "^1.1.1",

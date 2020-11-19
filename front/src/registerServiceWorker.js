@@ -1,56 +1,35 @@
 /* eslint-disable */
-import { Workbox } from "workbox-window";
-
+import req from "./util/req";
 let wb;
 
-if ("serviceWorker" in navigator) {
-  wb = new Workbox(`${process.env.BASE_URL}service-worker.js`);
-
-  wb.addEventListener("controlling", () => {
-    console.log("controlling");
-    window.location.reload();
-  });
-  wb.addEventListener("push", () => {
-    console.log("push");
-  });
-
-  wb.register();
-} else {
-  wb = null;
+if ('serviceWorker' in navigator) {
+  wb = navigator.serviceWorker.register(`${process.env.BASE_URL}service-worker.js`);
 }
 
-navigator.serviceWorker.ready
-  .then(registration => {
-    return registration.pushManager.getSubscription()
-      .then(async subscription => {
-        if (subscription) {
-          return subscription;
-        }
+const Register = () => {
+  navigator.serviceWorker.ready
+    .then(registration => {
+      return registration.pushManager.getSubscription()
+        .then(async subscription => {
+          if (subscription) {
+            console.log("existe subscripción", subscription);
+            return subscription;
+          }
 
-        const response = await fetch("http://localhost:3000/notifications/vapidPublicKey");
-        console.log("response", response);
-        const vapidPublicKey = await response.json();
-        console.log("vapidPublicKey", vapidPublicKey);
-        const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey.publicKey);
-        console.log("converted", convertedVapidKey);
+          const response = await req("get", "notifications/vapidPublicKey");
+          const convertedVapidKey = urlBase64ToUint8Array(response.data.publicKey);
 
-        return registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: convertedVapidKey
+          return registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedVapidKey
+          });
         });
-      });
-  }).then(subscription => {
-    fetch("http://localhost:3000/notifications/register", {
-      method: "post",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({
-        subscription: subscription
-      })
+    }).then(subscription => {
+      req("post", "notifications/register", subscription);
     });
-  });
+  }
 
+export {Register};
 export default wb;
 
 function urlBase64ToUint8Array(base64String) {

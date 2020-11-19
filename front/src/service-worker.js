@@ -13,7 +13,11 @@ const getEndpoint = async () => {
 
 self.addEventListener("push", event => {
   console.log(event);
-  event.waitUntil(
+  console.log("data", event.data.text());
+  self.registration.showNotification("TABSO", {
+    body: event.data.text()
+  });
+  /*event.waitUntil(
     getEndpoint()
       .then(function(endpoint) {
         console.log("endpoint", endpoint);
@@ -28,5 +32,5 @@ self.addEventListener("push", event => {
           body: payload + "A saber"
         });
       })
-  );
+  );*/
 });
