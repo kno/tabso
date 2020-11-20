@@ -72,6 +72,10 @@ const UsersRoutes = Router()
 
 const sendNotification = async (userId, text) => {
   const user = await UsersModel.findByPk(userId);
+  if (!user || !user.subscription) {
+    return;
+  }
+
   const notificationResult = await webPush.sendNotification(
     JSON.parse(user.subscription),
     text,
