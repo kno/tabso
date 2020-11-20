@@ -9,6 +9,8 @@
     "@babel/plugin-proposal-export-default-from"
   ],
   "ignore": [
-    "node_modules"
+    "node_modules",
+    "heroku",
+    ".git"
   ]
 }
