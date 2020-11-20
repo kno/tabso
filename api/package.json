@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d build --copy-files .",
+    "build-server": "babel --config-file ./babel.config.json -d build --copy-files .",
     "babel-version": "babel --version",
     "build": "yarn clean && yarn babel-version && yarn build-server",
     "start": "node build/server.js",
@@ -42,6 +42,6 @@
     "sequelize-cli": "^6.2.0"
   },
   "engines": {
-    "node": ">=v14.15.0"
+    "node": ">=v14.15.0 <v15.0.0"
   }
 }
