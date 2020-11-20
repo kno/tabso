@@ -14,7 +14,7 @@ const VAPID_KEY = {
 webPush.setVapidDetails('http://localhost', VAPID_KEY.publicKey, VAPID_KEY.privateKey);
 
 const UsersRoutes = Router()
-  .get('/vapidPublicKey', ProtectedRoutes, (req, res) => {
+  .get('/vapidPublicKey', ProtectedRoutes, async (req, res) => {
     res.json({
       publicKey: VAPID_KEY.publicKey
     })

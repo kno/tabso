@@ -1,6 +1,11 @@
 {
-  "presets": ["@babel/preset-env"],
+  "presets": [
+    "@babel/preset-env"
+  ],
   "plugins": [
+    "@babel/plugin-transform-runtime",
+    ["@babel/plugin-transform-modules-commonjs", {
+    }],
     "babel-plugin-add-import-extension",
     "@babel/plugin-proposal-export-default-from"
   ]
