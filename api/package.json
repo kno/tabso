@@ -7,7 +7,8 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d build --copy-files .",
-    "build": "yarn clean && yarn build-server",
+    "babel-version": "babel --version",
+    "build": "yarn clean && yarn babel-version && yarn build-server",
     "start": "node build/server.js",
     "dev": "nodemon --exec babel-node server.js",
     "db": "docker run -d --rm --name mariadb -v ${PWD}/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mariadb"
