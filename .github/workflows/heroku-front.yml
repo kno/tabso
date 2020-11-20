@@ -1,4 +1,4 @@
-name: Deploy api to Heroku
+name: Deploy front to Heroku
 
 on:
   push:
