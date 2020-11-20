@@ -15,7 +15,8 @@ self.addEventListener("push", event => {
   console.log(event);
   console.log("data", event.data.text());
   self.registration.showNotification("TABSO", {
-    body: event.data.text()
+    body: event.data.text(),
+    vibrate: [300, 100, 300, 100, 100]
   });
   /*event.waitUntil(
     getEndpoint()
