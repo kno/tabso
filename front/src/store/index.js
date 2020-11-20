@@ -37,7 +37,7 @@ import { make } from "vuex-pathify";
 
 const getDefaultState = () => {
   return {
-    baseURL: "http://localhost:3000",
+    baseURL: process.env.API_HOST || "http://localhost:3000",
     isMobileApp: false,
     loading: false,
     tinyKey: "6bsm37mwzh123b23iaqvjzvn594567n9fu3zrwga8or29wsr"
