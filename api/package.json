@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel --config-file ./babel.config.json server.js -d build",
-    "start": "node build/server.js",
+    "start": "node server.js",
     "dev": "nodemon --exec babel-node server.js",
     "db": "docker run -d --rm --name mariadb -v ${PWD}/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mariadb"
   },
