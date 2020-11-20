@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import config from './configs/config';
 import ProtectedRoutes from './middleware';
-import { Users, Deliveries, Notifications } from './controllers/index';
+import { Users, Deliveries, Notifications } from '../controllers/index';
 import cors from 'cors';
 
 const app = express();

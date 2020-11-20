@@ -1,8 +1,8 @@
 import Router from 'express';
 import webPush from 'web-push';
 import  urlBase64 from 'urlsafe-base64';
-import ProtectedRoutes from '../middleware';
-import Models from '../models';
+import ProtectedRoutes from '../src/middleware';
+import Models from '../src/models';
 
 const UsersModel = Models.user;
 
