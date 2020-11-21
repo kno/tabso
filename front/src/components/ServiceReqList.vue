@@ -67,6 +67,9 @@
         </v-col>
       </v-row>
       <ServiceReqEdit v-model="detailDialog" />
+      <v-snackbar v-model="snackbar" :timeout="timeout" top="true">
+        {{ snackbarText }}
+      </v-snackbar>
     </template>
   </PanelListMain>
 </template>
@@ -91,7 +94,10 @@ export default {
       ],
       srchSrNum: "",
       srchSrDesc: "",
-      awaitingSearch: false
+      awaitingSearch: false,
+      timeout: 2000,
+      snackbar: false,
+      snackbarText: "Default snack text"
     };
   },
   watch: {

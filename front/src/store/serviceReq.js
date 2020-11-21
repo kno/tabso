@@ -34,10 +34,18 @@ export default {
     },
 
     async createServiceReq({ commit }, sr) {
-      const { data } = await req("post", "deliveries/", sr);
-      store.set("serviceReq/activeServiceReq", data);
-      commit("appendServiceReq", data);
-      return data;
+      try {
+        const response = await req("post", "deliveries/", sr);
+        if (!response || response.status === 404) {
+          return null;
+        }
+        const { data } = response;
+        store.set("serviceReq/activeServiceReq", data);
+        commit("appendServiceReq", data);
+        return data;
+      } catch (e) {
+        throw(e);
+      }
     },
 
     async acceptServiceReq(_, deliveryId) {

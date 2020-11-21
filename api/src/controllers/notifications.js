@@ -75,20 +75,27 @@ const sendNotification = async (userId, text) => {
   if (!user || !user.subscription) {
     return;
   }
-
-  const notificationResult = await webPush.sendNotification(
-    JSON.parse(user.subscription),
-    text,
-    {
-      vapidDetails: {
-        subject: 'https://www.tabso.com',
-        publicKey: urlBase64.encode(VAPID_KEY.publicKey),
-        privateKey: urlBase64.encode(VAPID_KEY.privateKey)
-      },
-      contentEncoding: 'aesgcm',
-      TTL: 5
+  try {
+    const notificationResult = await webPush.sendNotification(
+      JSON.parse(user.subscription),
+      text,
+      {
+        vapidDetails: {
+          subject: 'https://www.tabso.com',
+          publicKey: urlBase64.encode(VAPID_KEY.publicKey),
+          privateKey: urlBase64.encode(VAPID_KEY.privateKey)
+        },
+        contentEncoding: 'aesgcm',
+        TTL: 5
+      }
+    );
+    if (notificationResult.statusCode === 401) {
+      user.subscription = undefined;
+      user.save();
     }
-  );
+  } catch (e) {
+    console.log("Problem sending notification to", user, user.subscription, e);
+  }
 };
 
 export {sendNotification};

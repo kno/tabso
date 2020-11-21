@@ -43,6 +43,9 @@
         </v-card>
       </template>
     </SubPanel>
+    <v-snackbar v-model="snackbar" :timeout="timeout" top="true">
+      {{ snackbarText }}
+    </v-snackbar>
   </v-dialog>
 </template>
 
@@ -55,7 +58,9 @@ import PgtUtilMix from "../mixins/PgtUtilMix.vue";
 export default {
   data() {
     return {
-      validInput: true
+      validInput: true,
+      snackbar: false,
+      snackbarText: "Default snackbar text"
     };
   },
   mixins: [PgtUtilMix],
@@ -82,15 +87,33 @@ export default {
   },
 
   methods: {
-    ...mapActions("serviceReq", ["createServiceReq", "updateServiceReq"]),
+    ...mapActions("serviceReq", [
+      "createServiceReq",
+      "updateServiceReq",
+      "fetchServiceReq"
+    ]),
 
-    saveRecord() {
+    async saveRecord() {
       //   this.activeServiceReq = this.activeServiceReq;
-      if (!this.activeServiceReq["id"])
-        this.createServiceReq(this.activeServiceReq);
-      else this.updateServiceReq(this.activeServiceReq);
+      if (!this.activeServiceReq["id"]) {
+        try {
+          const createServiceRequestResult = await this.createServiceReq(
+            this.activeServiceReq
+          );
+          if (!createServiceRequestResult) {
+            this.snackbarText = "This is an info toast";
+            this.snackbar = true;
+          }
+        } catch (e) {
+          alert("This is an info toast");
+          console.log("Error creating delivery", e);
+        }
+      } else {
+        this.updateServiceReq(this.activeServiceReq);
+      }
 
-      this.closeDialog();
+      this.fetchServiceReq();
+      //this.closeDialog();
     },
 
     closeDialog() {
