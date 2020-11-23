@@ -1,73 +1,30 @@
 <template>
   <PanelListMain>
     <template slot="toolbar-items">
-      <span class="subtitle-2">Service List</span>
+      <span class="subtitle-2">Delivery List</span>
       <v-spacer></v-spacer>
       <v-btn @click="newRecord" small outlined>
         <v-icon small>mdi-plus</v-icon>New
       </v-btn>
+      <v-icon @click="prev()">
+        mdi-arrow-left-bold-circle
+      </v-icon>
+      <v-icon @click="next()" right>
+        mdi-arrow-right-bold-circle
+      </v-icon>
     </template>
     <template slot="content">
-      <v-row dense>
-        <v-col cols="12">
-          <v-card flat color="transparent" height="100%" style="overflow:auto">
-            <v-card-title>
-              <v-spacer></v-spacer>
-
-              <v-text-field
-                v-model="srchSrNum"
-                prepend-icon="mdi-magnify"
-                label="Search SR Number"
-                single-line
-              ></v-text-field>
-              <v-text-field
-                v-model="srchSrDesc"
-                prepend-icon="mdi-file-outline"
-                label="Search Description"
-                single-line
-              ></v-text-field>
-            </v-card-title>
-            <v-data-table
-              :headers="headers"
-              :items="serviceReqs"
-              :options.sync="options"
-              :server-items-length="Number(serviceReqs.total)"
-              hide-default-footer
-            >
-              <template v-slot:item="props">
-                <tr @click="activeServiceReq = props.item">
-                  <td>{{ props.item.id }}</td>
-                  <td>{{ props.item.deliverer.username }}</td>
-                  <td>{{ props.item.recipient.username }}</td>
-                  <td>{{ props.item.date }}</td>
-                  <td>
-                    <v-icon color="success" @click="editRecord(props.item)"
-                      >mdi-pencil</v-icon
-                    >
-                    <v-icon
-                      :color="props.item.status === 1 ? 'success' : ''"
-                      @click="accept(props.item.id)"
-                    >
-                      mdi-check
-                    </v-icon>
-                  </td>
-                </tr>
-              </template>
-            </v-data-table>
-          </v-card>
-        </v-col>
-        <v-col cols="12" class="text-md-right pt-2">
-          <v-pagination
-            v-model="serviceReqs.page"
-            :total-visible="7"
-            :length="serviceReqs.lastPage"
-            @input="changePage"
-            justify="end"
-          ></v-pagination>
-        </v-col>
-      </v-row>
+      <v-calendar
+        ref="calendar"
+        type="day"
+        interval-minutes="15"
+        first-time="8:00"
+        light
+        v-model="today"
+      >
+      </v-calendar>
       <ServiceReqEdit v-model="detailDialog" />
-      <v-snackbar v-model="snackbar" :timeout="timeout" top="true">
+      <v-snackbar v-model="snackbar" :timeout="timeout" top>
         {{ snackbarText }}
       </v-snackbar>
     </template>
@@ -77,6 +34,7 @@
 <script>
 import { sync } from "vuex-pathify";
 import { mapActions } from "vuex";
+import { addDays } from "date-fns";
 
 import PanelListMain from "./layouts/PanelListMain";
 
@@ -97,7 +55,8 @@ export default {
       awaitingSearch: false,
       timeout: 2000,
       snackbar: false,
-      snackbarText: "Default snack text"
+      snackbarText: "Default snack text",
+      today: "2020-11-24"
     };
   },
   watch: {
@@ -139,6 +98,14 @@ export default {
 
   methods: {
     ...mapActions("serviceReq", ["fetchServiceReq", "acceptServiceReq"]),
+
+    next() {
+      this.today = addDays(new Date(this.today), 1);
+    },
+
+    prev() {
+      this.today = addDays(new Date(this.today), -1);
+    },
 
     changePage(page) {
       this.fetchServiceReq({

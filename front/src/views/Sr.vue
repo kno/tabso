@@ -1,5 +1,5 @@
 <template>
-  <Panel icon="mdi-view-dashboard" title="Dashboard">
+  <Panel icon="mdi-moped" title="Deliveries">
     <template slot="content">
       <v-container>
         <ServiceReqList />

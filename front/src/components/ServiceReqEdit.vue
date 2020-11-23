@@ -60,7 +60,8 @@ export default {
     return {
       validInput: true,
       snackbar: false,
-      snackbarText: "Default snackbar text"
+      snackbarText: "Default snackbar text",
+      timeout: 2000
     };
   },
   mixins: [PgtUtilMix],
