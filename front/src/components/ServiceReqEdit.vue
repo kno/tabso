@@ -107,7 +107,6 @@ export default {
           }
         } catch (e) {
           alert("This is an info toast");
-          console.log("Error creating delivery", e);
         }
       } else {
         this.updateServiceReq(this.activeServiceReq);

@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel --config-file ./babel.config.json -d build --copy-files src/",
-    "run-migrations": "sequelize db:migrate --config src/config/config.json",
+    "run-migrations": "sequelize db:migrate --config src/config/config.jsonpacka",
     "build": "yarn clean && yarn run-migrations && yarn build-server",
     "start": "node build/server.js",
     "dev": "nodemon --exec babel-node src/server.js",
