@@ -1,5 +1,6 @@
 /* eslint-disable */
 import req from "../util/req";
+import { parseISO, format, addMinutes } from "date-fns";
 
 import { make } from "vuex-pathify";
 import store from ".";
@@ -19,17 +20,20 @@ export default {
   state: state,
 
   actions: {
-    async fetchServiceReq() {
-      //let { page, query } = params;
-      let url = `deliveries`;
-      //page = page ? page : 1;
-      //url += `?page=${page}`;
-
-      //if (query && !!Object.entries(query).length)
-      //  url += "&query=" + JSON.stringify(query);
+    async fetchServiceReq(args, params) {
+      const { date } = params;
+      let url = `deliveries/${format(date, "yyyy-MM-dd")}`;
 
       const { data } = await req("get", url);
-      if (data) store.set("serviceReq/serviceReqs", data);
+      const events = data.map(delivery => {
+        return {
+          start: format(parseISO(delivery.date), "yyyy-MM-dd hh:mm"),
+          end: format(addMinutes(parseISO(delivery.date), 15), "yyyy-MM-dd hh:mm"),
+          name: `${delivery.recipient.username} (${delivery.recipient.phone})`
+        };
+      })
+      console.log("data", events);
+      if (data) store.set("serviceReq/serviceReqs", events);
       else store.set("serviceReq/serviceReqs", { data: [] });
     },
 

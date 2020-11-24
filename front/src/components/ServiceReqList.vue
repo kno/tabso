@@ -14,15 +14,18 @@
       </v-icon>
     </template>
     <template slot="content">
-      <v-calendar
-        ref="calendar"
-        type="day"
-        interval-minutes="15"
-        first-time="8:00"
-        light
-        v-model="today"
-      >
-      </v-calendar>
+      <v-sheet v-touch="{ left: () => next(), right: () => prev() }">
+        <v-calendar
+          ref="calendar"
+          type="day"
+          interval-minutes="15"
+          first-time="8:00"
+          light
+          v-model="today"
+          :events="serviceReqs"
+        >
+        </v-calendar>
+      </v-sheet>
       <ServiceReqEdit v-model="detailDialog" />
       <v-snackbar v-model="snackbar" :timeout="timeout" top>
         {{ snackbarText }}
@@ -56,26 +59,20 @@ export default {
       timeout: 2000,
       snackbar: false,
       snackbarText: "Default snack text",
-      today: "2020-11-24"
+      today: new Date()
     };
   },
-  watch: {
-    options: {
-      handler() {
-        this.fetchServiceReq({
-          page: 1,
-          query: this.search
-        });
-      },
-      deep: true
-    },
 
+  created: function() {
+    this.getEvents();
+  },
+
+  watch: {
     search: function() {
       if (!this.awaitingSearch) {
         setTimeout(() => {
           this.fetchServiceReq({
-            page: 1,
-            query: this.search
+            date: this.today
           });
           this.awaitingSearch = false;
         }, 1000);
@@ -107,10 +104,15 @@ export default {
       this.today = addDays(new Date(this.today), -1);
     },
 
-    changePage(page) {
+    getEvents() {
       this.fetchServiceReq({
-        page: page,
-        query: this.search
+        date: this.today
+      });
+    },
+
+    changePage() {
+      this.fetchServiceReq({
+        date: this.today
       });
     },
 
@@ -121,7 +123,9 @@ export default {
 
     accept(id) {
       this.acceptServiceReq(id);
-      this.fetchServiceReq();
+      this.fetchServiceReq({
+        date: this.today
+      });
     },
 
     newRecord() {

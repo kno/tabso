@@ -2,6 +2,8 @@ import Router from 'express';
 import Models from '../models';
 import ProtectedRoutes from '../middleware';
 import {sendNotification} from './notifications';
+import {addDays, parseISO} from "date-fns";
+import {Op} from 'sequelize';
 
 const DeliveriesModel = Models.delivery;
 const UsersModel = Models.user;
@@ -112,6 +114,56 @@ const DeliveriesRoutes = Router()
       return res.status(500).json();
     }
   })
+  .get('/:date', ProtectedRoutes, async ({decodedUser, params: {date}}, res) => {
+    console.log("date", date);
+    const dateplus1 = addDays(parseISO(date), 1);
+    console.log("dateplus1", dateplus1);
+    try {
+      const user = await UsersModel.findByPk(decodedUser.id);
+      const deliveries = await (decodedUser.userType === 'deliverer' ?
+        user.getPendingDeliveries({
+          where: {
+            date: {
+              [Op.gte]: date,
+              [Op.lt]: dateplus1
+            }
+          },
+          include: [{
+            model: UsersModel,
+            as: 'deliverer',
+            attributes: ['id', 'username']
+          }, {
+            model: UsersModel,
+            as: 'recipient',
+            attributes: ['id', 'username', 'phone']
+          }
+        ]
+      })
+      :
+        user.getPendingRecipients({
+          where: {
+            date: {
+              [Op.gte]: date,
+              [Op.lt]: dateplus1
+            }
+          },
+          include: [{
+            model: UsersModel,
+            as: 'deliverer',
+            attributes: ['id', 'username']
+          }, {
+            model: UsersModel,
+            as: 'recipient',
+            attributes: ['id', 'username']
+          }
+        ]
+      }));
+
+      return res.json(deliveries);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json();
+    }  })
 ;
 
 export default DeliveriesRoutes;
