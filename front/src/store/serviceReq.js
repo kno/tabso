@@ -32,7 +32,6 @@ export default {
           name: `${delivery.recipient.username} (${delivery.recipient.phone})`
         };
       })
-      console.log("data", events);
       if (data) store.set("serviceReq/serviceReqs", events);
       else store.set("serviceReq/serviceReqs", { data: [] });
     },

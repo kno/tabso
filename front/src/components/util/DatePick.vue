@@ -31,7 +31,7 @@
         <v-flex xs12 sm6>
           <v-time-picker
             v-if="dropdownOpen"
-            v-model="timeModel"
+            :value="timeModel"
             color="primary"
             :no-title="true"
             format="24hr"
@@ -53,7 +53,10 @@
 </template>
 
 <script>
+import { formatISO, format } from "date-fns";
+import PgtUtilMix from "../../mixins/PgtUtilMix";
 //https://codepen.io/xristian/pen/VoLRYa
+
 export default {
   data() {
     return {
@@ -62,6 +65,10 @@ export default {
       dateModel: "",
       timeModel: ""
     };
+  },
+  mixins: [PgtUtilMix],
+  props: {
+    value: Date
   },
   computed: {
     model: {
@@ -74,8 +81,7 @@ export default {
     },
 
     currentSelection() {
-      let selectedTime = this.timeModel;
-      return this.formatDate(this.dateModel) + " " + selectedTime;
+      return format(this.value, "yyyy/MM/dd hh:mm");
     }
   },
   methods: {
@@ -110,14 +116,10 @@ export default {
     }
   },
 
-  mounted() {
-    // Set the current date and time as default value
-    var d = new Date();
-    var currentHour = d.getHours();
-    var minutes = (d.getMinutes() < 10 ? "0" : "") + d.getMinutes();
-    var currentTime = currentHour + ":" + minutes;
-    this.timeModel = currentTime;
-    this.dateModel = d.toISOString().substr(0, 10);
+  updated() {
+    this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
+    this.timeModel = formatISO(this.value, { representation: "time" });
+    this.dateModel = formatISO(this.value, { representation: "date" });
   }
 };
 </script>

@@ -23,10 +23,12 @@
           light
           v-model="today"
           :events="serviceReqs"
+          @change="getEvents"
+          @click:time="addEvent"
         >
         </v-calendar>
       </v-sheet>
-      <ServiceReqEdit v-model="detailDialog" />
+      <ServiceReqEdit v-model="detailDialogData" />
       <v-snackbar v-model="snackbar" :timeout="timeout" top>
         {{ snackbarText }}
       </v-snackbar>
@@ -37,7 +39,7 @@
 <script>
 import { sync } from "vuex-pathify";
 import { mapActions } from "vuex";
-import { addDays } from "date-fns";
+import { addDays, parseISO } from "date-fns";
 
 import PanelListMain from "./layouts/PanelListMain";
 
@@ -45,7 +47,7 @@ export default {
   data() {
     return {
       options: {},
-      detailDialog: false,
+      detailDialogData: { show: false },
       headers: [
         { text: "SR Num.", value: "#" },
         { text: "Deliverer", value: "Deliverer" },
@@ -61,10 +63,6 @@ export default {
       snackbarText: "Default snack text",
       today: new Date()
     };
-  },
-
-  created: function() {
-    this.getEvents();
   },
 
   watch: {
@@ -110,6 +108,11 @@ export default {
       });
     },
 
+    addEvent(when) {
+      this.activeServiceReq.date = parseISO(`${when.date} ${when.time}`);
+      this.detailDialogData.show = true;
+    },
+
     changePage() {
       this.fetchServiceReq({
         date: this.today
@@ -118,7 +121,7 @@ export default {
 
     editRecord(item) {
       this.activeServiceReq = item;
-      this.detailDialog = true;
+      this.detailDialogData.show = true;
     },
 
     accept(id) {
@@ -130,7 +133,7 @@ export default {
 
     newRecord() {
       this.activeServiceReq = { status: 0 };
-      this.detailDialog = true;
+      this.detailDialogData.show = true;
     }
   },
 

@@ -43,7 +43,7 @@
         </v-card>
       </template>
     </SubPanel>
-    <v-snackbar v-model="snackbar" :timeout="timeout" top="true">
+    <v-snackbar v-model="snackbar" :timeout="timeout" top>
       {{ snackbarText }}
     </v-snackbar>
   </v-dialog>
@@ -66,7 +66,10 @@ export default {
   },
   mixins: [PgtUtilMix],
   props: {
-    value: Boolean
+    value: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   computed: {
@@ -74,10 +77,12 @@ export default {
 
     showDialog: {
       get() {
-        return this.value;
+        console.log("activeServiceReq", this.activeServiceReq["date"]);
+        return this.value && this.value.show;
       },
       set(value) {
-        this.$emit("input", value);
+        this.value.show = value;
+        this.$emit("input", this.value);
       }
     }
   },
@@ -113,7 +118,7 @@ export default {
       }
 
       this.fetchServiceReq();
-      //this.closeDialog();
+      this.closeDialog();
     },
 
     closeDialog() {
