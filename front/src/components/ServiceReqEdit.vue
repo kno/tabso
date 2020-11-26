@@ -77,7 +77,6 @@ export default {
 
     showDialog: {
       get() {
-        console.log("activeServiceReq", this.activeServiceReq["date"]);
         return this.value && this.value.show;
       },
       set(value) {
