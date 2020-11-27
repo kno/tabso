@@ -115,7 +115,11 @@ export default {
       }
     }
   },
-
+  created() {
+    this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
+    this.timeModel = format(this.value, "hh:mm");
+    this.dateModel = formatISO(this.value, { representation: "date" });
+  },
   updated() {
     this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
     this.timeModel = format(this.value, "hh:mm");
