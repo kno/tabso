@@ -119,7 +119,6 @@ export default {
   updated() {
     this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
     this.timeModel = format(this.value, "hh:mm");
-    console.log("timemodel", this.timeModel);
     this.dateModel = formatISO(this.value, { representation: "date" });
   }
 };
