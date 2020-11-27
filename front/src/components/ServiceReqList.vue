@@ -24,6 +24,7 @@
           v-model="today"
           :events="serviceReqs"
           @change="getEvents"
+          @click:event="editEvent"
           @click:time="addEvent"
         >
         </v-calendar>
@@ -115,6 +116,16 @@ export default {
       this.activeServiceReq.date = parseISO(
         `${when.date} ${zeropad(when.hour)}:${zeropad(minutes)}`
       );
+      this.detailDialogData.show = true;
+    },
+
+    editEvent({ event, nativeEvent }) {
+      nativeEvent.stopImmediatePropagation();
+      this.activeServiceReq = {
+        ...event.tag,
+        date: parseISO(event.start),
+        phone: event.tag.recipient.phone
+      };
       this.detailDialogData.show = true;
     },
 

@@ -27,6 +27,7 @@ export default {
       const { data } = await req("get", url);
       const events = data.map(delivery => {
         return {
+          tag: delivery,
           start: format(parseISO(delivery.date), "yyyy-MM-dd hh:mm"),
           end: format(addMinutes(parseISO(delivery.date), 15), "yyyy-MM-dd hh:mm"),
           name: `${delivery.recipient.username} (${delivery.recipient.phone})`

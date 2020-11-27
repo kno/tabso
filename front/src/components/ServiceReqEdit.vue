@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="showDialog" persistent max-width="960px">
+  <v-dialog
+    v-model="showDialog"
+    persistent
+    max-width="960px"
+    @keydown.esc="showDialog = false"
+  >
     <SubPanel>
       <template slot="toolbar-items">
         <span class="subtitle-2">New/Edit Delivery</span>
@@ -99,7 +104,7 @@ export default {
     ]),
 
     async saveRecord() {
-      //   this.activeServiceReq = this.activeServiceReq;
+      //this.activeServiceReq = this.activeServiceReq;
       if (!this.activeServiceReq["id"]) {
         try {
           const createServiceRequestResult = await this.createServiceReq(
