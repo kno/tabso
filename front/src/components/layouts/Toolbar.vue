@@ -117,8 +117,8 @@ export default {
         },
         {
           icon: "mdi-book-plus",
-          title: "Service Request",
-          to: "/sr"
+          title: "Deliveries",
+          to: "/deliveries"
         },
         {
           icon: "mdi-bank",

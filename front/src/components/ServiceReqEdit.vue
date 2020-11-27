@@ -2,7 +2,7 @@
   <v-dialog v-model="showDialog" persistent max-width="960px">
     <SubPanel>
       <template slot="toolbar-items">
-        <span class="subtitle-2">New/Edit Service</span>
+        <span class="subtitle-2">New/Edit Delivery</span>
       </template>
 
       <template slot="content">
