@@ -40,6 +40,7 @@
 import { sync } from "vuex-pathify";
 import { mapActions } from "vuex";
 import { addDays, parseISO } from "date-fns";
+import zeropad from "zeropad";
 
 import PanelListMain from "./layouts/PanelListMain";
 
@@ -109,7 +110,11 @@ export default {
     },
 
     addEvent(when) {
-      this.activeServiceReq.date = parseISO(`${when.date} ${when.time}`);
+      this.activeServiceReq = {};
+      const minutes = Math.floor(when.minute / 15) * 15;
+      this.activeServiceReq.date = parseISO(
+        `${when.date} ${zeropad(when.hour)}:${zeropad(minutes)}`
+      );
       this.detailDialogData.show = true;
     },
 

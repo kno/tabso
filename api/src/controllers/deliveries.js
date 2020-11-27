@@ -32,7 +32,7 @@ const DeliveriesRoutes = Router()
       const delivery = await DeliveriesModel.create({
         delivererId: req.decodedUser.id,
         recipientId: recipient.id,
-        date: new Date(),
+        date: req.body.date,
         status: DELIVERY_STATUS.PROPOSED
       }, {
         include: [

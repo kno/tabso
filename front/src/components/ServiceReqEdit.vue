@@ -110,7 +110,8 @@ export default {
             this.snackbar = true;
           }
         } catch (e) {
-          alert("This is an info toast");
+          this.snackbarText = "This is an info toast";
+          this.snackbar = true;
         }
       } else {
         this.updateServiceReq(this.activeServiceReq);

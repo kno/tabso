@@ -5024,6 +5024,11 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+negative-zero@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/negative-zero/-/negative-zero-1.0.0.tgz#9af422f36effb2dc582bcdc66b86bf1adba11605"
+  integrity sha1-mvQi827/stxYK83Ga4a/GtuhFgU=
+
 negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
@@ -7905,3 +7910,10 @@ yorkie@^2.0.0:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
+
+zeropad@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/zeropad/-/zeropad-1.1.0.tgz#325f93eb2d0e016ff442d4e35bdd026ec2cda292"
+  integrity sha1-Ml+T6y0OAW/0QtTjW90CbsLNopI=
+  dependencies:
+    negative-zero "^1.0.0"

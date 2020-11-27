@@ -31,7 +31,7 @@ export default {
           end: format(addMinutes(parseISO(delivery.date), 15), "yyyy-MM-dd hh:mm"),
           name: `${delivery.recipient.username} (${delivery.recipient.phone})`
         };
-      })
+      });
       if (data) store.set("serviceReq/serviceReqs", events);
       else store.set("serviceReq/serviceReqs", { data: [] });
     },
