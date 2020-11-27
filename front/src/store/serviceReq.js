@@ -43,8 +43,8 @@ export default {
           return null;
         }
         const { data } = response;
-        store.set("serviceReq/activeServiceReq", data);
-        commit("appendServiceReq", data);
+        //store.set("serviceReq/activeServiceReq", data);
+        //commit("appendServiceReq", data);
         return data;
       } catch (e) {
         throw(e);

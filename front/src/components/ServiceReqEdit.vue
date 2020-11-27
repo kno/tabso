@@ -106,18 +106,20 @@ export default {
             this.activeServiceReq
           );
           if (!createServiceRequestResult) {
-            this.snackbarText = "This is an info toast";
+            this.snackbarText = "Delivery not created";
             this.snackbar = true;
           }
         } catch (e) {
-          this.snackbarText = "This is an info toast";
+          this.snackbarText = "There was an error " + e;
           this.snackbar = true;
         }
       } else {
-        this.updateServiceReq(this.activeServiceReq);
+        await this.updateServiceReq(this.activeServiceReq);
       }
 
-      this.fetchServiceReq();
+      await this.fetchServiceReq({
+        date: this.activeServiceReq.date
+      });
       this.closeDialog();
     },
 
