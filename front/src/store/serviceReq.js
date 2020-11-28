@@ -38,6 +38,7 @@ export default {
     },
 
     async createServiceReq({ commit }, sr) {
+      console.log("create Delivery", sr);
       try {
         const response = await req("post", "deliveries/", sr);
         if (!response || response.status === 404) {
@@ -67,8 +68,8 @@ export default {
     async updateServiceReq({ state }) {
       try {
         const { data } = await req(
-          "patch",
-          `v0/sr/${state.activeServiceReq.id}`,
+          "post",
+          `/${state.activeServiceReq.id}`,
           state.activeServiceReq
         );
 

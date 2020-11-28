@@ -96,6 +96,12 @@ export default {
     DatePick: () => import("./util/DatePick")
   },
 
+  mutations: {
+    setDate: (state, date) => {
+      state.activeServiceReq.date = date;
+    }
+  },
+
   methods: {
     ...mapActions("serviceReq", [
       "createServiceReq",

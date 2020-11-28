@@ -164,6 +164,21 @@ const DeliveriesRoutes = Router()
       console.log(error);
       return res.status(500).json();
     }  })
+  .post('/:id', async (req, res) => {
+    try {
+      const delivery = await DeliveriesModel.findOne({
+        where: {
+          id: params.id,
+          delivererId: req.decodedUser.id,
+          status: DELIVERY_STATUS.PROPOSED
+      }});
+      delivery.date = req.body.date;
+      res.sendStatus(200);
+    } catch (e) {
+      console.log(error);
+      return res.status(500).json();
+    }
+  })
 ;
 
 export default DeliveriesRoutes;

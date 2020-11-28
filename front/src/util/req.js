@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store/index";
+import router from "../router";
 
 export default async (reqType, reqURL, data) => {
   store.set("loading", true);
@@ -32,6 +33,10 @@ export default async (reqType, reqURL, data) => {
         return await axios.get(store.state.baseURL + "/" + reqURL, options);
     }
   } catch (e) {
+    if (e.response.status === 401) {
+      store.commit("authentication/logout");
+      router.push("/login");
+    }
     const msgPrefix = ["post", "patch"].includes(reqType)
       ? `Error saving data. `
       : `Error fetching details. `;
@@ -50,6 +55,7 @@ export default async (reqType, reqURL, data) => {
     ) {
       errMsg = "Your session has expired. Re-login to continue.";
       store.commit("authentication/logout");
+      router.push("/login");
     }
 
     store.commit("alert/setAlertMsg", `${msgPrefix} ${errMsg}`);

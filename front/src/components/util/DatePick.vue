@@ -35,6 +35,7 @@
             color="primary"
             :no-title="true"
             format="24hr"
+            @change="timeChange"
           >
           </v-time-picker>
 
@@ -43,7 +44,7 @@
         <v-flex xs12>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn outlined @click="dropdownOpen = false">Cancel</v-btn>
+            <v-btn outlined @click="cancel">Cancel</v-btn>
             <v-btn color="primary" @click="confirm()">Ok</v-btn>
           </v-card-actions>
         </v-flex>
@@ -53,7 +54,14 @@
 </template>
 
 <script>
-import { formatISO, format } from "date-fns";
+import {
+  formatISO,
+  format,
+  parse,
+  parseISO,
+  getHours,
+  getMinutes
+} from "date-fns";
 import PgtUtilMix from "../../mixins/PgtUtilMix";
 //https://codepen.io/xristian/pen/VoLRYa
 
@@ -61,6 +69,7 @@ export default {
   data() {
     return {
       dropdownOpen: false,
+      previousValue: "",
       displayDate: "",
       dateModel: "",
       timeModel: ""
@@ -81,16 +90,10 @@ export default {
     },
 
     currentSelection() {
-      return format(this.value, "yyyy/MM/dd hh:mm");
+      return `${this.dateModel} ${this.timeModel}`;
     }
   },
   methods: {
-    formatDate(date) {
-      if (!date) return "";
-      const [year, month, day] = date.split("-");
-      return `${day}/${month}/${year}`;
-    },
-
     // Confirm the datetime selection and close the popover
     confirm() {
       this.onUpdateDate();
@@ -100,30 +103,35 @@ export default {
     // Format the date and trigger the input event
     onUpdateDate() {
       if (!this.dateModel || !this.timeModel) return false;
-
-      let selectedTime = this.timeModel;
-      this.displayDate = this.formatDate(this.dateModel) + " " + selectedTime;
-      this.$emit("input", this.dateModel + " " + selectedTime);
+      this.displayDate = `${this.dateModel} ${this.timeModel}`;
+      this.$emit("input", parseISO(this.displayDate));
     },
 
-    // Set the active state for the meridiam buttons
-    getMeridiamButtonColor(m) {
-      if (m === this.meridiam) {
-        return "primary";
-      } else {
-        return "darkgray";
-      }
+    timeChange(newTimeStr) {
+      const newTime = parse(newTimeStr, "HH:mm", new Date());
+      const minutes = Math.round(getMinutes(newTime) / 15) * 15;
+      this.timeModel = `${getHours(newTime)}:${minutes}`;
+    },
+
+    cancel() {
+      this.displayDate = format(this.value, "yyyy-MM-dd hh:mm");
+      this.timeModel = format(this.value, "hh:mm");
+      this.dateModel = formatISO(this.value, { representation: "date" });
+      this.dropdownOpen = false;
     }
   },
   created() {
-    this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
+    this.displayDate = format(this.value, "yyyy-MM-dd hh:mm");
     this.timeModel = format(this.value, "hh:mm");
     this.dateModel = formatISO(this.value, { representation: "date" });
   },
   updated() {
-    this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
-    this.timeModel = format(this.value, "hh:mm");
-    this.dateModel = formatISO(this.value, { representation: "date" });
+    if (this.previousValue !== this.value) {
+      this.previousValue = this.value;
+      this.displayDate = format(this.value, "yyyy/MM/dd hh:mm");
+      this.timeModel = format(this.value, "hh:mm");
+      this.dateModel = formatISO(this.value, { representation: "date" });
+    }
   }
 };
 </script>
