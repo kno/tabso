@@ -13,7 +13,7 @@ import pref from "./pref";
 import authentication from "./authentication";
 import alert from "./alert";
 
-import serviceReq from "./serviceReq";
+import deliveries from "./deliveries";
 
 Vue.use(Vuex);
 
@@ -30,7 +30,7 @@ const vuexCookie = new VuexPersist({
 const vuexLocal = new VuexPersist({
   key: "localStore", // The key to store the state on in the storage provider.
   storage: localStorage, // or window.sessionStorage or localForage
-  modules: ["pref", "serviceReq"]
+  modules: ["pref", "deliveries"]
 });
 
 import { make } from "vuex-pathify";
@@ -61,7 +61,7 @@ export default new Vuex.Store({
     pref,
     authentication,
     alert,
-    serviceReq
+    deliveries
   },
   plugins: [pathify.plugin, vuexCookie.plugin, vuexLocal.plugin]
 });

@@ -164,18 +164,20 @@ const DeliveriesRoutes = Router()
       console.log(error);
       return res.status(500).json();
     }  })
-  .post('/:id', async (req, res) => {
+  .post('/:id', ProtectedRoutes, async (req, res) => {
     try {
       const delivery = await DeliveriesModel.findOne({
         where: {
-          id: params.id,
+          id: req.params.id,
           delivererId: req.decodedUser.id,
           status: DELIVERY_STATUS.PROPOSED
       }});
+      console.log("date", req.body.date);
       delivery.date = req.body.date;
+      await delivery.save();
       res.sendStatus(200);
     } catch (e) {
-      console.log(error);
+      console.log(e);
       return res.status(500).json();
     }
   })

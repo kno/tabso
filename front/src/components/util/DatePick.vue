@@ -3,7 +3,6 @@
     ref="menu"
     v-model="dropdownOpen"
     :close-on-content-click="false"
-    :return-value.sync="model"
     transition="scale-transition"
     offset-y
     max-width="600"
@@ -63,6 +62,7 @@ import {
   getMinutes
 } from "date-fns";
 import PgtUtilMix from "../../mixins/PgtUtilMix";
+import zeropad from "zeropad";
 //https://codepen.io/xristian/pen/VoLRYa
 
 export default {
@@ -80,15 +80,6 @@ export default {
     value: Date
   },
   computed: {
-    model: {
-      get() {
-        return this.value;
-      },
-      set(model) {
-        this.value = model;
-      }
-    },
-
     currentSelection() {
       return `${this.dateModel} ${this.timeModel}`;
     }
@@ -109,7 +100,7 @@ export default {
 
     timeChange(newTimeStr) {
       const newTime = parse(newTimeStr, "HH:mm", new Date());
-      const minutes = Math.round(getMinutes(newTime) / 15) * 15;
+      const minutes = zeropad(Math.round(getMinutes(newTime) / 15) * 15);
       this.timeModel = `${getHours(newTime)}:${minutes}`;
     },
 

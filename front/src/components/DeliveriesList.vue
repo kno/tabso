@@ -22,14 +22,14 @@
           first-time="8:00"
           light
           v-model="today"
-          :events="serviceReqs"
+          :events="deliveries"
           @change="getEvents"
           @click:event="editEvent"
           @click:time="addEvent"
         >
         </v-calendar>
       </v-sheet>
-      <ServiceReqEdit v-model="detailDialogData" />
+      <DeliveryEdit v-model="detailDialog" />
       <v-snackbar v-model="snackbar" :timeout="timeout" top>
         {{ snackbarText }}
       </v-snackbar>
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       options: {},
-      detailDialogData: { show: false },
+      detailDialog: false,
       headers: [
         { text: "SR Num.", value: "#" },
         { text: "Deliverer", value: "Deliverer" },
@@ -71,7 +71,7 @@ export default {
     search: function() {
       if (!this.awaitingSearch) {
         setTimeout(() => {
-          this.fetchServiceReq({
+          this.fetchDeliveries({
             date: this.today
           });
           this.awaitingSearch = false;
@@ -82,7 +82,7 @@ export default {
   },
 
   computed: {
-    ...sync("serviceReq", ["serviceReqs", "activeServiceReq"]),
+    ...sync("deliveries", ["deliveries", "activeDelivery"]),
 
     search() {
       const srchStr = {};
@@ -94,7 +94,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("serviceReq", ["fetchServiceReq", "acceptServiceReq"]),
+    ...mapActions("deliveries", ["fetchDeliveries", "acceptDelivery"]),
 
     next() {
       this.today = addDays(new Date(this.today), 1);
@@ -105,57 +105,57 @@ export default {
     },
 
     getEvents() {
-      this.fetchServiceReq({
+      this.fetchDeliveries({
         date: this.today
       });
     },
 
     addEvent(when) {
-      this.activeServiceReq = {};
+      this.activeDelivery = {};
       const minutes = Math.floor(when.minute / 15) * 15;
-      this.activeServiceReq.date = parseISO(
+      this.activeDelivery.date = parseISO(
         `${when.date} ${zeropad(when.hour)}:${zeropad(minutes)}`
       );
-      this.detailDialogData.show = true;
+      this.detailDialog = true;
     },
 
     editEvent({ event, nativeEvent }) {
       nativeEvent.stopImmediatePropagation();
-      this.activeServiceReq = {
+      this.activeDelivery = {
         ...event.tag,
         date: parseISO(event.start),
         phone: event.tag.recipient.phone
       };
-      this.detailDialogData.show = true;
+      this.detailDialog = true;
     },
 
     changePage() {
-      this.fetchServiceReq({
+      this.fetchDeliveries({
         date: this.today
       });
     },
 
     editRecord(item) {
-      this.activeServiceReq = item;
-      this.detailDialogData.show = true;
+      this.activeDelivery = item;
+      this.detailDialog.show = true;
     },
 
     accept(id) {
-      this.acceptServiceReq(id);
-      this.fetchServiceReq({
+      this.acceptDelivery(id);
+      this.fetchDeliveries({
         date: this.today
       });
     },
 
     newRecord() {
-      this.activeServiceReq = { status: 0 };
-      this.detailDialogData.show = true;
+      this.activeDelivery = { status: 0 };
+      this.detailDialog = true;
     }
   },
 
   components: {
     PanelListMain,
-    ServiceReqEdit: () => import("./ServiceReqEdit")
+    DeliveryEdit: () => import("./DeliveryEdit")
   }
 };
 </script>

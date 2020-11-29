@@ -2,7 +2,7 @@
   <Panel icon="mdi-moped" title="Deliveries">
     <template slot="content">
       <v-container>
-        <ServiceReqList />
+        <DeliveriesList />
       </v-container>
     </template>
   </Panel>
@@ -14,7 +14,7 @@ import Panel from "../components/layouts/Panel";
 export default {
   components: {
     Panel,
-    ServiceReqList: () => import("../components/ServiceReqList")
+    DeliveriesList: () => import("../components/DeliveriesList")
   }
 };
 </script>

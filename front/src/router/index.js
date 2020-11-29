@@ -54,9 +54,9 @@ const routes = [
   },
   {
     path: "/deliveries",
-    name: "ServiceRequest",
+    name: "Delivery",
     component: () =>
-      import(/* webpackChunkName: "servicerequest" */ "../views/Sr.vue")
+      import(/* webpackChunkName: "delivery" */ "../views/Deliveries.vue")
   },
   {
     // catch all 404

@@ -18,7 +18,7 @@
                 <v-col cols="12" md="6">
                   <v-text-field
                     label="Phone Number"
-                    v-model="activeServiceReq['phone']"
+                    v-model="activeDelivery['phone']"
                     :rules="[rules.required]"
                     :prepend-icon="'mdi-card-account-phone'"
                   >
@@ -27,14 +27,14 @@
                 <v-col cols="12" md="6">
                   <DatePick
                     label="Porpoused Date"
-                    v-model="activeServiceReq['date']"
+                    v-model="activeDelivery['date']"
                   >
                   </DatePick>
                 </v-col>
                 <v-col cols="12" md="9">
                   <v-textarea
                     label="Remarks"
-                    v-model="activeServiceReq['remarks']"
+                    v-model="activeDelivery['remarks']"
                   ></v-textarea>
                 </v-col>
               </v-row>
@@ -72,21 +72,20 @@ export default {
   mixins: [PgtUtilMix],
   props: {
     value: {
-      type: Object,
-      default: () => {}
+      type: Boolean,
+      default: () => false
     }
   },
 
   computed: {
-    ...sync("serviceReq", ["activeServiceReq"]),
+    ...sync("deliveries", ["activeDelivery"]),
 
     showDialog: {
       get() {
-        return this.value && this.value.show;
+        return this.value;
       },
       set(value) {
-        this.value.show = value;
-        this.$emit("input", this.value);
+        this.$emit("input", value);
       }
     }
   },
@@ -98,25 +97,24 @@ export default {
 
   mutations: {
     setDate: (state, date) => {
-      state.activeServiceReq.date = date;
+      state.activeDelivery.date = date;
     }
   },
 
   methods: {
-    ...mapActions("serviceReq", [
-      "createServiceReq",
-      "updateServiceReq",
-      "fetchServiceReq"
+    ...mapActions("deliveries", [
+      "createDelivery",
+      "updateDelivery",
+      "fetchDeliveries"
     ]),
 
     async saveRecord() {
-      //this.activeServiceReq = this.activeServiceReq;
-      if (!this.activeServiceReq["id"]) {
+      if (!this.activeDelivery["id"]) {
         try {
-          const createServiceRequestResult = await this.createServiceReq(
-            this.activeServiceReq
+          const createDeliveryResult = await this.createDelivery(
+            this.activeDelivery
           );
-          if (!createServiceRequestResult) {
+          if (!createDeliveryResult) {
             this.snackbarText = "Delivery not created";
             this.snackbar = true;
           }
@@ -125,11 +123,11 @@ export default {
           this.snackbar = true;
         }
       } else {
-        await this.updateServiceReq(this.activeServiceReq);
+        await this.updateDelivery(this.activeDelivery);
       }
 
-      await this.fetchServiceReq({
-        date: this.activeServiceReq.date
+      await this.fetchDeliveries({
+        date: this.activeDelivery.date
       });
       this.closeDialog();
     },
