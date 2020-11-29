@@ -6,13 +6,13 @@
       ></v-app-bar-nav-icon>
       <router-link to="/">
         <v-img
-          src="../../assets/img/logo.png"
+          src="../../assets/img/logo_tabso.png"
           contain
           max-height="50px"
           max-width="50px"
         />
       </router-link>
-      <span class="title ml-1">Awesome Monkey</span>
+      <span class="title ml-1">T-A-B SO</span>
       <!-- <span class="caption grey--text text-lighten-5">beta</span> -->
 
       <v-spacer></v-spacer>
