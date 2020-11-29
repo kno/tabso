@@ -30,9 +30,6 @@
         </v-calendar>
       </v-sheet>
       <DeliveryEdit v-model="detailDialog" />
-      <v-snackbar v-model="snackbar" :timeout="timeout" top>
-        {{ snackbarText }}
-      </v-snackbar>
     </template>
   </PanelListMain>
 </template>
@@ -61,8 +58,6 @@ export default {
       srchSrDesc: "",
       awaitingSearch: false,
       timeout: 2000,
-      snackbar: false,
-      snackbarText: "Default snack text",
       today: new Date()
     };
   },
