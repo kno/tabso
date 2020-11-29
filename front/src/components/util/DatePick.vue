@@ -100,8 +100,8 @@ export default {
 
     timeChange(newTimeStr) {
       const newTime = parse(newTimeStr, "HH:mm", new Date());
-      const minutes = zeropad(Math.round(getMinutes(newTime) / 15) * 15);
-      this.timeModel = `${getHours(newTime)}:${minutes}`;
+      const minutes = zeropad((Math.round(getMinutes(newTime) / 15) * 15) % 60);
+      this.timeModel = `${zeropad(getHours(newTime))}:${minutes}`;
     },
 
     cancel() {
