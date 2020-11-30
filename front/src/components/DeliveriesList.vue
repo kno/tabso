@@ -135,13 +135,6 @@ export default {
       this.detailDialog.show = true;
     },
 
-    accept(id) {
-      this.acceptDelivery(id);
-      this.fetchDeliveries({
-        date: this.today
-      });
-    },
-
     newRecord() {
       this.activeDelivery = { status: 0 };
       this.detailDialog = true;

@@ -41,6 +41,12 @@
                     <v-icon color="success" @click="editRecord(props.item)"
                       >mdi-pencil</v-icon
                     >
+                    <v-icon
+                      :color="props.item.tag.status === 1 ? 'success' : ''"
+                      @click="accept(props.item.tag.id)"
+                    >
+                      mdi-check
+                    </v-icon>
                   </td>
                 </tr>
               </template>
@@ -83,12 +89,19 @@ export default {
   },
 
   methods: {
-    ...mapActions("deliveries", ["fetchDeliveries"]),
+    ...mapActions("deliveries", ["fetchDeliveries", "acceptDelivery"]),
 
     changePage(page) {
       this.fetchDeliveries({
         page: page,
         query: this.search
+      });
+    },
+
+    accept(id) {
+      this.acceptDelivery(id);
+      this.fetchDeliveries({
+        date: this.today
       });
     }
   },
