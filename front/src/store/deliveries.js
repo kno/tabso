@@ -21,8 +21,11 @@ export default {
 
   actions: {
     async fetchDeliveries(args, params) {
-      const { date } = params;
-      let url = `deliveries/${format(date, "yyyy-MM-dd")}`;
+      let url = "deliveries";
+      if (params && params.date) {
+        const { date } = params;
+        url += `/${format(date, "yyyy-MM-dd")}`;
+      }
 
       const { data } = await req("get", url);
       const events = data.map(delivery => {

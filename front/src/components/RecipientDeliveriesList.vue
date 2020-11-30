@@ -26,17 +26,17 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :items="deliveries.data"
+              :items="deliveries"
               :options.sync="options"
               :server-items-length="Number(deliveries.total)"
               hide-default-footer
             >
               <template v-slot:item="props">
                 <tr @click="activeDelivery = props.item">
-                  <td>{{ props.item.id }}</td>
-                  <td>{{ props.item.date }}</td>
-                  <td>{{ props.item.description }}</td>
-                  <td>{{ props.item.status }}</td>
+                  <td>{{ props.item.tag.id }}</td>
+                  <td>{{ props.item.start }}</td>
+                  <td>{{ props.item.tag.remarks }}</td>
+                  <td>{{ props.item.tag.status }}</td>
                   <td>
                     <v-icon color="success" @click="editRecord(props.item)"
                       >mdi-pencil</v-icon
@@ -61,11 +61,13 @@
   </PanelListMain>
 </template>
 <script>
+import { sync } from "vuex-pathify";
+import { mapActions } from "vuex";
 import PanelListMain from "./layouts/PanelListMain";
+
 export default {
   data() {
     return {
-      asdf: "",
       srchSrNum: "",
       srchSrDesc: "",
       headers: [
@@ -75,17 +77,31 @@ export default {
         { text: "Status", value: "status_cd", sortable: false },
         { text: "Actions", value: "actions", sortable: false }
       ],
-      deliveries: [],
       options: {},
       detailDialog: false
     };
   },
+
   methods: {
+    ...mapActions("deliveries", ["fetchDeliveries"]),
+
     changePage(page) {
       this.fetchDeliveries({
         page: page,
         query: this.search
       });
+    }
+  },
+
+  computed: {
+    ...sync("deliveries", ["deliveries", "activeDelivery"])
+  },
+
+  watch: {
+    options: {
+      handler() {
+        this.fetchDeliveries();
+      }
     }
   },
   components: {
