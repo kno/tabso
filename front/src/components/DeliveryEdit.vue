@@ -21,6 +21,7 @@
                     v-model="activeDelivery['phone']"
                     :rules="[rules.required]"
                     :prepend-icon="'mdi-card-account-phone'"
+                    :disabled="activeDelivery['id']"
                   >
                   </v-text-field>
                 </v-col>

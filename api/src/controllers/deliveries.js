@@ -171,10 +171,17 @@ const DeliveriesRoutes = Router()
         where: {
           id: req.params.id,
           delivererId: req.decodedUser.id,
-          status: DELIVERY_STATUS.PROPOSED
+          status: DELIVERY_STATUS.PROPOSED,
+          date: req.body.date
       }});
+      if (!delivery) {
+        return res.sendStatus(404);
+      }
       console.log("date", req.body.date);
       delivery.date = req.body.date;
+      if (req.body.remark) {
+        delivery.remark = req.body.remark;
+      }
       await delivery.save();
       res.sendStatus(200);
     } catch (e) {

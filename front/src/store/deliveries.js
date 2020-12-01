@@ -1,4 +1,3 @@
-/* eslint-disable */
 import req from "../util/req";
 import { parseISO, format, addMinutes } from "date-fns";
 
@@ -32,7 +31,10 @@ export default {
         return {
           tag: delivery,
           start: format(parseISO(delivery.date), "yyyy-MM-dd hh:mm"),
-          end: format(addMinutes(parseISO(delivery.date), 15), "yyyy-MM-dd hh:mm"),
+          end: format(
+            addMinutes(parseISO(delivery.date), 15),
+            "yyyy-MM-dd hh:mm"
+          ),
           name: `${delivery.recipient.username} (${delivery.recipient.phone}) ${delivery.remark}`
         };
       });
@@ -40,19 +42,15 @@ export default {
       else store.set("deliveries/deliveries", { data: [] });
     },
 
-    async createDelivery({ commit }, delivery) {
-      try {
-        const response = await req("post", "deliveries/", delivery);
-        if (!response || response.status === 404) {
-          return null;
-        }
-        const { data } = response;
-        //store.set("deliveries/activeDelivery", data);
-        //commit("deliveries", data);
-        return data;
-      } catch (e) {
-        throw(e);
+    async createDelivery(_, delivery) {
+      const response = await req("post", "deliveries/", delivery);
+      if (!response || response.status === 404) {
+        return null;
       }
+      const { data } = response;
+      //store.set("deliveries/activeDelivery", data);
+      //commit("deliveries", data);
+      return data;
     },
 
     async acceptDelivery(_, deliveryId) {
@@ -69,7 +67,6 @@ export default {
 
     async updateDelivery({ state }) {
       try {
-        console.log(state.activeDelivery);
         const { data } = await req(
           "post",
           `deliveries/${state.activeDelivery.id}`,
@@ -87,14 +84,13 @@ export default {
             message: "Delive update failed.",
             color: "error"
           });
-/*          store.commit(
-            "pgtalert/setAlertMsg",
-            "Delivery failed. Retry later or contact us for assistance."
-          );*/
           this.fetchDeliveries(state.activeDelivery.date);
         }
       } catch (e) {
-        // i am error}
+        store.set("snackbar/snack", {
+          message: "Delive update failed.",
+          color: "error"
+        });
       }
     }
   },
