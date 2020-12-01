@@ -33,7 +33,8 @@ const DeliveriesRoutes = Router()
         delivererId: req.decodedUser.id,
         recipientId: recipient.id,
         date: req.body.date,
-        status: DELIVERY_STATUS.PROPOSED
+        status: DELIVERY_STATUS.PROPOSED,
+        remark: req.body.remark
       }, {
         include: [
           {model: UsersModel, as: 'deliverer'},

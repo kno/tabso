@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATE,
     delivererId: DataTypes.INTEGER,
     recipientId: DataTypes.INTEGER,
-    status: DataTypes. INTEGER
+    status: DataTypes. INTEGER,
+    remark: {
+      type: DataTypes.TEXT,
+      defaultValue: ''
+    }
   }, {
     sequelize,
     modelName: 'delivery',

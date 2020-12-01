@@ -34,7 +34,7 @@
                 <v-col cols="12" md="9">
                   <v-textarea
                     label="Remarks"
-                    v-model="activeDelivery['remarks']"
+                    v-model="activeDelivery['remark']"
                   ></v-textarea>
                 </v-col>
               </v-row>

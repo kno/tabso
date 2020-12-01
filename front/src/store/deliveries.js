@@ -33,16 +33,16 @@ export default {
           tag: delivery,
           start: format(parseISO(delivery.date), "yyyy-MM-dd hh:mm"),
           end: format(addMinutes(parseISO(delivery.date), 15), "yyyy-MM-dd hh:mm"),
-          name: `${delivery.recipient.username} (${delivery.recipient.phone})`
+          name: `${delivery.recipient.username} (${delivery.recipient.phone}) ${delivery.remark}`
         };
       });
       if (data) store.set("deliveries/deliveries", events);
       else store.set("deliveries/deliveries", { data: [] });
     },
 
-    async createDelivery({ commit }, sr) {
+    async createDelivery({ commit }, delivery) {
       try {
-        const response = await req("post", "deliveries/", sr);
+        const response = await req("post", "deliveries/", delivery);
         if (!response || response.status === 404) {
           return null;
         }
