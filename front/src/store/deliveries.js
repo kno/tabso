@@ -61,7 +61,10 @@ export default {
         return data;
       } catch (e) {
         // error
-        console.error(e);
+        store.set("snackbar/snack", {
+          message: "Delivery accept failed.",
+          color: "error"
+        });
       }
     },
 
@@ -81,7 +84,7 @@ export default {
           });
         } else {
           store.set("snackbar/snack", {
-            message: "Delive update failed.",
+            message: "Delivery update failed.",
             color: "error"
           });
           this.fetchDeliveries(state.activeDelivery.date);
