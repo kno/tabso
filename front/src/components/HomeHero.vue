@@ -23,7 +23,14 @@
               <span>
                 <br />
 
-                <v-btn dark dense to="/login" text class="ml-auto">
+                <v-btn
+                  dark
+                  dense
+                  to="/login"
+                  text
+                  class="ml-auto"
+                  id="btn_login"
+                >
                   or
                   <span
                     class="pl-3"
