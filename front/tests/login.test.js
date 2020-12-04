@@ -1,14 +1,19 @@
+const home = require("./pages/home");
+
 describe('TABSO', function() {
+  test('remote', (browser) => {
+    const homePage = browser.page.home();
+    const loginPage = browser.page.login();
 
-  test('login', function(browser) {
-    browser
-      .url('http://localhost:8080/')
-      .click('#btn_login')
-      .setValue('input[name=userid]', 'deliverer1')
-      .setValue('input[name=password]', '123')
-      .click('button[type=submit]')
+    homePage
+      .navigate()
+      .waitForElementVisible('@loginButton')
+      .click('@loginButton')
+      .assert.urlEquals(loginPage.url());
+    loginPage
+      .setValue('@username', 'deliverer1')
+      .setValue('@password', '123')
+      .click('@submitButton')
       .assert.containsText('.container', 'This is a beautiful dashboard')
-      .end();
   });
-
 });

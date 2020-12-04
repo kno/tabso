@@ -35,7 +35,7 @@
       <v-card color="transparent" flat v-if="isLoggedIn">
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn text icon v-on="on">
+            <v-btn text icon v-on="on" id="userToolbarButton">
               <v-icon color="darker">mdi-account-circle</v-icon>
             </v-btn>
           </template>
@@ -46,6 +46,7 @@
               dense
               :key="index"
               :to="item.to"
+              id="item.id"
             >
               <v-list-item-avatar>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -135,8 +136,13 @@ export default {
         }
       ],
       userToolbarItems: [
-        { icon: "mdi-folder-account", title: "Account", to: "/my-account" },
-        { icon: "mdi-logout", title: "Logout", to: "/logout" }
+        {
+          icon: "mdi-folder-account",
+          title: "Account",
+          to: "/my-account",
+          id: "myAccountBtn"
+        },
+        { icon: "mdi-logout", title: "Logout", to: "/logout", id: "logoutBtn" }
       ]
     };
   },
